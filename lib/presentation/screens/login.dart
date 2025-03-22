@@ -16,8 +16,31 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  void _login() {
+    String user = _userController.text;
+    String password = _passwordController.text;
+
+    if (user == 'admin' && password == '1234') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Usuario ingresado exitosamente')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Usuario o contraseña incorrectos')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +53,7 @@ class LoginScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextField(
+              controller: _userController,
               decoration: InputDecoration(
                 labelText: 'Usuario',
                 border: OutlineInputBorder(),
@@ -37,6 +61,7 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 10),
             TextField(
+              controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Contraseña',
@@ -45,9 +70,7 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // Acción de inicio de sesión
-              },
+              onPressed: _login,
               child: Text('Iniciar sesión'),
             ),
             SizedBox(height: 10),
